@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 
-// Import store for user stats (we'll implement this later)
+// Import store for user stats
 import { useAppStore } from "@/lib/store";
 
 // Import components
@@ -21,10 +21,8 @@ const SportsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showAnimation, setShowAnimation] = useState(false);
   
-  // Mock data - in a real app, this would come from an API
-  const matches = [
-    // ... we'll add mock data here later
-  ];
+  // Get matches from the store
+  const matches = useAppStore((state) => state.matches);
 
   useEffect(() => {
     setShowAnimation(true);
@@ -83,7 +81,7 @@ const SportsPage = () => {
                 .map((_, index) => (
                   <MatchCardSkeleton key={`skeleton-${index}`} />
                 ))
-            : matches.map((match: any, index: number) => (
+            : matches.map((match) => (
                 <MatchCard key={match.id} match={match} />
               ))}
         </section>
