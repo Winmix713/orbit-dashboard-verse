@@ -10,12 +10,21 @@ import { MatchAnalysis, Team } from "@/lib/types";
 import { fetchMatchAnalysis, calculateOdds, formatProbability } from "@/lib/api";
 
 interface MatchPredictionCardProps {
-  homeTeam: Team;
-  awayTeam: Team;
-  onClose: () => void;
+  // Update prop types to accept either homeTeam/awayTeam OR homeTeamId/awayTeamId
+  homeTeam?: Team;
+  awayTeam?: Team;
+  homeTeamId?: string;
+  awayTeamId?: string;
+  onClose?: () => void;
 }
 
-const MatchPredictionCard = ({ homeTeam, awayTeam, onClose }: MatchPredictionCardProps) => {
+const MatchPredictionCard = ({ 
+  homeTeam, 
+  awayTeam, 
+  homeTeamId, 
+  awayTeamId,
+  onClose = () => {} 
+}: MatchPredictionCardProps) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("prediction");
@@ -37,7 +46,12 @@ const MatchPredictionCard = ({ homeTeam, awayTeam, onClose }: MatchPredictionCar
     const loadAnalysis = async () => {
       try {
         setIsLoading(true);
-        const data = await fetchMatchAnalysis(homeTeam.id, awayTeam.id);
+        // Determine which IDs to use
+        const hId = homeTeamId || homeTeam?.id || "";
+        const aId = awayTeamId || awayTeam?.id || "";
+        
+        // Fetch data and await the promise
+        const data = await fetchMatchAnalysis(hId, aId);
         setAnalysis(data);
       } catch (error) {
         toast({
@@ -50,8 +64,10 @@ const MatchPredictionCard = ({ homeTeam, awayTeam, onClose }: MatchPredictionCar
       }
     };
 
-    loadAnalysis();
-  }, [homeTeam.id, awayTeam.id, toast]);
+    if ((homeTeamId || homeTeam) && (awayTeamId || awayTeam)) {
+      loadAnalysis();
+    }
+  }, [homeTeamId, awayTeamId, homeTeam, awayTeam, toast]);
 
   // Helper function to determine the trend icon
   const getTrendIcon = (value: number) => {
@@ -60,12 +76,16 @@ const MatchPredictionCard = ({ homeTeam, awayTeam, onClose }: MatchPredictionCar
     return null;
   };
 
+  // Get team names for display
+  const homeTeamName = homeTeam?.name || "Home Team";
+  const awayTeamName = awayTeam?.name || "Away Team";
+
   return (
     <Card className="w-full max-w-md mx-auto bg-card border border-border rounded-lg overflow-hidden shadow-lg">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-semibold">Match Analysis</CardTitle>
         <CardDescription>
-          {homeTeam.name} vs {awayTeam.name}
+          {homeTeamName} vs {awayTeamName}
         </CardDescription>
       </CardHeader>
 
@@ -87,7 +107,7 @@ const MatchPredictionCard = ({ homeTeam, awayTeam, onClose }: MatchPredictionCar
             <>
               <div className="mb-6 mt-4">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium">{homeTeam.name} Win</span>
+                  <span className="text-sm font-medium">{homeTeamName} Win</span>
                   <span className="text-sm text-muted-foreground">
                     {analysis.prediction?.home}% ({calculateOdds(analysis.prediction?.home || 0)})
                   </span>
@@ -107,7 +127,7 @@ const MatchPredictionCard = ({ homeTeam, awayTeam, onClose }: MatchPredictionCar
 
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium">{awayTeam.name} Win</span>
+                  <span className="text-sm font-medium">{awayTeamName} Win</span>
                   <span className="text-sm text-muted-foreground">
                     {analysis.prediction?.away}% ({calculateOdds(analysis.prediction?.away || 0)})
                   </span>
@@ -131,9 +151,9 @@ const MatchPredictionCard = ({ homeTeam, awayTeam, onClose }: MatchPredictionCar
                   <CircleCheck className="h-5 w-5 text-primary mr-2" />
                   <span className="font-medium">
                     {analysis.prediction?.recommended === 'home'
-                      ? `${homeTeam.name} Win`
+                      ? `${homeTeamName} Win`
                       : analysis.prediction?.recommended === 'away'
-                      ? `${awayTeam.name} Win`
+                      ? `${awayTeamName} Win`
                       : 'Draw'}
                   </span>
                 </div>

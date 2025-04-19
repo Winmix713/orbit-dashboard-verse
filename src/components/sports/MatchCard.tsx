@@ -81,7 +81,7 @@ const MatchCard = ({ match }: MatchCardProps) => {
 
   return (
     <div className="bg-card rounded-lg overflow-hidden border border-border transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-lg">
-      <MatchHeader id={match.id} time={match.time} timeGMT={match.timeGMT} startsIn={match.startsIn} />
+      <MatchHeader id={match.id} time={match.time} timeGMT={match.timeGMT} startsIn={match.startsIn} league={match.league} />
 
       <div className="p-6">
         {match.selectableTeams ? (
@@ -151,7 +151,20 @@ const MatchCard = ({ match }: MatchCardProps) => {
 
             {showPredictionCard && (
               <div className="mb-4">
-                <MatchPredictionCard homeTeamId={match.homeTeam!.id} awayTeamId={match.awayTeam!.id} />
+                {/* Pass the correct props to MatchPredictionCard */}
+                {match.homeTeam && match.awayTeam ? (
+                  <MatchPredictionCard 
+                    homeTeam={match.homeTeam} 
+                    awayTeam={match.awayTeam}
+                    onClose={() => setShowPredictionCard(false)}  
+                  />
+                ) : (
+                  <MatchPredictionCard 
+                    homeTeamId={match.homeTeam?.id || ""} 
+                    awayTeamId={match.awayTeam?.id || ""}
+                    onClose={() => setShowPredictionCard(false)} 
+                  />
+                )}
               </div>
             )}
 
