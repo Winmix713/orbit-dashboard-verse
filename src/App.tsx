@@ -1,18 +1,18 @@
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 // Pages
-import Index from "./pages/Index";
+import Sports from "./pages/Sports";
 import Dashboard from "./pages/Dashboard";
 import Leaderboard from "./pages/Leaderboard";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
-import Sports from "./pages/Sports";
 
 // Layout
 import RootLayout from "./components/layout/RootLayout";
@@ -36,11 +36,15 @@ const App = () => (
           <QueryClientProvider client={queryClient}>
             <BrowserRouter>
               <Routes>
-                {/* Public routes */}
-                <Route path="/" element={<Index />} />
+                {/* Sports page as homepage */}
+                <Route path="/" element={<Sports />} />
+                
+                {/* Redirect /sports to homepage since Sports is now the homepage */}
+                <Route path="/sports" element={<Navigate to="/" replace />} />
+                
+                {/* Auth routes */}
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
-                <Route path="/sports" element={<Sports />} />
                 
                 {/* Routes with shared layout */}
                 <Route element={<RootLayout />}>

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
@@ -36,7 +37,7 @@ const NavBar = () => {
             <Link to="/leaderboard" className={`text-sm font-medium transition-colors hover:text-primary ${isActive('/leaderboard') ? 'text-primary' : 'text-muted-foreground'}`}>
               Leaderboard
             </Link>
-            <Link to="/sports" className={`text-sm font-medium transition-colors hover:text-primary ${isActive('/sports') ? 'text-primary' : 'text-muted-foreground'}`}>
+            <Link to="/" className={`text-sm font-medium transition-colors hover:text-primary ${isActive('/') ? 'text-primary' : 'text-muted-foreground'}`}>
               Sports
             </Link>
           </SignedIn>
@@ -88,6 +89,14 @@ const NavBar = () => {
               >
                 <Trophy className="h-4 w-4" />
                 Leaderboard
+              </Link>
+              <Link 
+                to="/" 
+                className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary ${isActive('/') ? 'text-primary' : 'text-muted-foreground'}`}
+                onClick={closeMenu}
+              >
+                <Trophy className="h-4 w-4" />
+                Sports
               </Link>
             </SignedIn>
             <SignedOut>
