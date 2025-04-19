@@ -19,11 +19,14 @@ import RootLayout from "./components/layout/RootLayout";
 
 const queryClient = new QueryClient();
 
-// Public key would normally come from environment variables
-const CLERK_PUBLISHABLE_KEY = "pk_test_example-key";
+// Get the publishable key from environment variables
+const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || "pk_test_b25lLXdhaG9vLTQyLmNsZXJrLmFjY291bnRzLmRldiQ";
 
 // Initialize Convex client (URL would come from environment variables)
 const convex = new ConvexReactClient("https://example.convex.cloud");
+
+// For debugging
+console.log("CLERK_PUBLISHABLE_KEY:", CLERK_PUBLISHABLE_KEY);
 
 const App = () => (
   <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
