@@ -37,6 +37,13 @@ export interface MatchAnalysis {
   homeForm: number;
   awayForm: number;
   historicalMatches?: HistoricalMatch[];
+  prediction?: {
+    home: number;
+    draw: number;
+    away: number;
+    confidence: number;
+    recommended?: 'home' | 'draw' | 'away';
+  };
 }
 
 export interface HistoricalMatch {
