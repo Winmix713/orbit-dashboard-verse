@@ -151,7 +151,6 @@ const MatchCard = ({ match }: MatchCardProps) => {
 
             {showPredictionCard && (
               <div className="mb-4">
-                {/* Pass the appropriate props to MatchPredictionCard */}
                 <MatchPredictionCard 
                   homeTeam={match.homeTeam} 
                   awayTeam={match.awayTeam}
