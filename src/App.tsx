@@ -1,4 +1,3 @@
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ClerkProvider } from "@clerk/clerk-react";
@@ -13,6 +12,7 @@ import Leaderboard from "./pages/Leaderboard";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
+import Sports from "./pages/Sports";
 
 // Layout
 import RootLayout from "./components/layout/RootLayout";
@@ -40,6 +40,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/sports" element={<Sports />} />
                 
                 {/* Routes with shared layout */}
                 <Route element={<RootLayout />}>

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
@@ -36,6 +35,9 @@ const NavBar = () => {
             </Link>
             <Link to="/leaderboard" className={`text-sm font-medium transition-colors hover:text-primary ${isActive('/leaderboard') ? 'text-primary' : 'text-muted-foreground'}`}>
               Leaderboard
+            </Link>
+            <Link to="/sports" className={`text-sm font-medium transition-colors hover:text-primary ${isActive('/sports') ? 'text-primary' : 'text-muted-foreground'}`}>
+              Sports
             </Link>
           </SignedIn>
           
