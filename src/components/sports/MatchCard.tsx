@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useAppStore } from "@/lib/store";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Match } from "@/lib/types";
 import TeamSelector from "@/components/sports/TeamSelector";
@@ -151,20 +151,12 @@ const MatchCard = ({ match }: MatchCardProps) => {
 
             {showPredictionCard && (
               <div className="mb-4">
-                {/* Pass the correct props to MatchPredictionCard */}
-                {match.homeTeam && match.awayTeam ? (
-                  <MatchPredictionCard 
-                    homeTeam={match.homeTeam} 
-                    awayTeam={match.awayTeam}
-                    onClose={() => setShowPredictionCard(false)}  
-                  />
-                ) : (
-                  <MatchPredictionCard 
-                    homeTeamId={match.homeTeam?.id || ""} 
-                    awayTeamId={match.awayTeam?.id || ""}
-                    onClose={() => setShowPredictionCard(false)} 
-                  />
-                )}
+                {/* Pass the appropriate props to MatchPredictionCard */}
+                <MatchPredictionCard 
+                  homeTeam={match.homeTeam} 
+                  awayTeam={match.awayTeam}
+                  onClose={() => setShowPredictionCard(false)}  
+                />
               </div>
             )}
 
