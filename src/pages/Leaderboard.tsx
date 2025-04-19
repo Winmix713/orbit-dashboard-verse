@@ -11,7 +11,6 @@ import {
   ArrowDown,
   ArrowUp,
   ArrowUpDown,
-  ChevronDown,
   Search,
   Trophy,
 } from "lucide-react";
@@ -116,8 +115,21 @@ const Leaderboard = () => {
   const { isLoaded: userLoaded, isSignedIn } = useUser();
   const navigate = useNavigate();
   
+  // For debugging
+  console.log("Leaderboard component rendered");
+  console.log("userLoaded:", userLoaded);
+  console.log("isSignedIn:", isSignedIn);
+  
+  // Check authentication and redirect if needed
+  useEffect(() => {
+    if (userLoaded && !isSignedIn) {
+      console.log("User not signed in, redirecting to sign-in");
+      navigate("/sign-in");
+    }
+  }, [userLoaded, isSignedIn, navigate]);
+  
   // Mock leaderboard data - would come from Convex in a real implementation
-  const [userData, setUserData] = useState<UserData[]>([
+  const [userData] = useState<UserData[]>([
     { id: "1", rank: 1, name: "John Doe", email: "john@example.com", score: 9854, change: "up", changeAmount: 2 },
     { id: "2", rank: 2, name: "Jane Smith", email: "jane@example.com", score: 9421, change: "none", changeAmount: 0 },
     { id: "3", rank: 3, name: "Robert Johnson", email: "robert@example.com", score: 8975, change: "down", changeAmount: 1 },
@@ -130,16 +142,10 @@ const Leaderboard = () => {
     { id: "10", rank: 10, name: "Lisa Thomas", email: "lisa@example.com", score: 7350, change: "up", changeAmount: 2 },
   ]);
   
-  // Check authentication and redirect if needed
-  useEffect(() => {
-    if (userLoaded && !isSignedIn) {
-      navigate("/sign-in");
-    }
-  }, [userLoaded, isSignedIn, navigate]);
-  
   // Simulate loading time
   useEffect(() => {
     if (userLoaded) {
+      console.log("User loaded, simulating loading delay");
       setTimeout(() => setIsLoading(false), 1000);
     }
   }, [userLoaded]);

@@ -194,9 +194,15 @@ const Dashboard = () => {
   const { isLoaded: orgLoaded, organization } = useOrganization();
   const navigate = useNavigate();
   
-  // Check authentication and redirect if needed
   useEffect(() => {
+    // Add console logs for debugging
+    console.log("Dashboard mounted");
+    console.log("User loaded:", userLoaded);
+    console.log("User signed in:", isSignedIn);
+    
+    // Check authentication and redirect if needed
     if (userLoaded && !isSignedIn) {
+      console.log("User not signed in, redirecting to sign-in");
       navigate("/sign-in");
     }
   }, [userLoaded, isSignedIn, navigate]);
@@ -204,6 +210,7 @@ const Dashboard = () => {
   // Simulate loading time
   useEffect(() => {
     if (userLoaded && orgLoaded) {
+      console.log("User and organization loaded, setting loading to false");
       setTimeout(() => setIsLoading(false), 1000);
     }
   }, [userLoaded, orgLoaded]);

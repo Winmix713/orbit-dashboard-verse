@@ -6,15 +6,21 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 const SignUp = () => {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
   const navigate = useNavigate();
+  
+  // For debugging
+  console.log("SignUp component rendered");
+  console.log("isLoaded:", isLoaded);
+  console.log("isSignedIn:", isSignedIn);
   
   // If already signed in, redirect to dashboard
   useEffect(() => {
-    if (isSignedIn) {
+    if (isLoaded && isSignedIn) {
+      console.log("User is already signed in, redirecting to dashboard");
       navigate("/dashboard");
     }
-  }, [isSignedIn, navigate]);
+  }, [isSignedIn, isLoaded, navigate]);
   
   return (
     <div className="flex min-h-[80vh] items-center justify-center bg-muted/40">
