@@ -3,16 +3,20 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, BarChart3, CheckCircle, Radar, UserPlus } from "lucide-react";
+import { ArrowRight, BarChart3, UserPlus, Radar } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Index = () => {
   const { isSignedIn } = useUser();
   const navigate = useNavigate();
   
+  // For debugging
+  console.log("Index component rendered, isSignedIn:", isSignedIn);
+  
   // If signed in, redirect to dashboard
   useEffect(() => {
     if (isSignedIn) {
+      console.log("User is signed in, redirecting to dashboard");
       navigate("/dashboard");
     }
   }, [isSignedIn, navigate]);
