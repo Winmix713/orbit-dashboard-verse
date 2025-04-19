@@ -1,21 +1,12 @@
 
-import { useState, useEffect } from "react";
-import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
-import { ClerkProvider, SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { useState } from "react";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import { MoonIcon, SunIcon, LayoutDashboard, Trophy, Menu, X } from "lucide-react";
 import { useTheme } from "@/components/theme/ThemeProvider";
-
-// Public key would normally come from environment variables
-const CLERK_PUBLISHABLE_KEY = "pk_test_example-key";
-
-// Initialize Convex client (URL would come from environment variables)
-const convex = new ConvexReactClient("https://example.convex.cloud");
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -131,23 +122,15 @@ const Footer = () => {
 
 const RootLayout = () => {
   return (
-    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
-      <ConvexProvider client={convex}>
-        <ThemeProvider defaultTheme="system" storageKey="theme">
-          <TooltipProvider>
-            <div className="min-h-screen flex flex-col">
-              <NavBar />
-              <main className="flex-1">
-                <Outlet />
-              </main>
-              <Footer />
-              <Toaster />
-              <Sonner />
-            </div>
-          </TooltipProvider>
-        </ThemeProvider>
-      </ConvexProvider>
-    </ClerkProvider>
+    <div className="min-h-screen flex flex-col">
+      <NavBar />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer />
+      <Toaster />
+      <Sonner />
+    </div>
   );
 };
 
